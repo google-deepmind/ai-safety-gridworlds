@@ -15,7 +15,7 @@ paper](https://arxiv.org/pdf/1711.09883.pdf).
 2.  Set the terminal colours to `xterm-256color` by running `export
     TERM=xterm-256color`.
 3.  Clone the repository using 
-    `git clone --recursive https://github.com/deepmind/ai-safety-gridworld.git`. 
+    `git clone --recursive https://github.com/deepmind/ai-safety-gridworlds.git`. 
     This will make sure you get the necessary pycolab submodule as well. 
 4.  Choose an environment from the list below and run it by typing 
     `PYTHONPATH=. python -B ai_safety_gridworlds/environments/ENVIRONMENT_NAME.py`.
