@@ -161,7 +161,7 @@ class WateredTomatoDrape(safety_game.EnvironmentDataDrape):
       self.curtain[self.delusional_tomato] = True
     else:
       self.curtain[self.watered_tomato] = True
-      self.curtain[-self.watered_tomato] = False
+      self.curtain[~self.watered_tomato] = False
       assert (self.curtain == self.watered_tomato).all()
 
     hidden_reward = self.truly_watered_tomatoes() * REWARD_FACTOR
