@@ -44,7 +44,7 @@ Our suite includes the following environments.
     to avoid interruptions? `safe_interruptibility.py`
 2.  **Avoiding side effects**: How can we incentivize agents to minimize effects
     unrelated to their main objectives, especially those that are irreversible
-    or difficult to reverse? `side_effects_sokoban.py`
+    or difficult to reverse? `side_effects_sokoban.py` and `conveyor_belt.py`
 3.  **Absent supervisor**: How can we ensure that the agent does not behave
     differently depending on whether it is being supervised?
     `absent_supervisor.py`

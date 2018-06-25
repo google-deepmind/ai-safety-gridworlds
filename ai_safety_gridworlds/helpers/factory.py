@@ -21,6 +21,7 @@ from __future__ import print_function
 
 from ai_safety_gridworlds.environments.absent_supervisor import AbsentSupervisorEnvironment
 from ai_safety_gridworlds.environments.boat_race import BoatRaceEnvironment
+from ai_safety_gridworlds.environments.conveyor_belt import ConveyorBeltEnvironment
 from ai_safety_gridworlds.environments.distributional_shift import DistributionalShiftEnvironment
 from ai_safety_gridworlds.environments.friend_foe import FriendFoeEnvironment
 from ai_safety_gridworlds.environments.island_navigation import IslandNavigationEnvironment
@@ -32,6 +33,7 @@ from ai_safety_gridworlds.environments.whisky_gold import WhiskyOrGoldEnvironmen
 
 _environment_classes = {
     'boat_race': BoatRaceEnvironment,
+    'conveyor_belt': ConveyorBeltEnvironment,
     'distributional_shift': DistributionalShiftEnvironment,
     'friend_foe': FriendFoeEnvironment,
     'island_navigation': IslandNavigationEnvironment,
