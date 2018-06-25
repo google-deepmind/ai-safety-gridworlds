@@ -26,7 +26,14 @@ paper](https://arxiv.org/pdf/1711.09883.pdf).
 * Python 2.7 with enum34 support. We recommend using version 2.7.13.
 * Numpy. Our version is 1.13.3.
 * [Abseil](https://github.com/abseil/abseil-py) Python common libraries.
+* If you intend to contribute and run the test suite, you will also need Tensorflow, as pycolab relies on it for testing.
 
+We also recommend using a virtual environment. Under the assumption that you have the virtualenv package installed, the setup is as follows:
+```
+virtualenv py2
+. ./py2/bin/activate
+pip install absl-py numpy enum34 tensorflow
+```
 
 ## Environments
 
