@@ -251,7 +251,7 @@ class Environment(object):
     return valid_actions, action_size
 
   def _compute_observation_spec(self):
-    """Helper for `__init__`: compute our environment's action spec."""
+    """Helper for `__init__`: compute our environment's observation spec."""
     # Start an environment, examine the values it gives to us, and reset things
     # back to default.
     timestep = self.reset()
