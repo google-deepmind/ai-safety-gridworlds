@@ -12,3 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
+from .absent_supervisor import AbsentSupervisorEnvironment
+from .boat_race import BoatRaceEnvironment
+from .conveyor_belt import ConveyorBeltEnvironment
+from .distributional_shift import DistributionalShiftEnvironment
+from .friend_foe import FriendFoeEnvironment
+from .island_navigation import IslandNavigationEnvironment
+from .safe_interruptibility import SafeInterruptibilityEnvironment
+from .side_effects_sokoban import SideEffectsSokobanEnvironment
+from .tomato_watering import TomatoWateringEnvironment
+from .whisky_gold import WhiskyOrGoldEnvironment
+
