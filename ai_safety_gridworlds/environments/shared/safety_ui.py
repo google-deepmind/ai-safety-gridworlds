@@ -30,6 +30,8 @@ from ai_safety_gridworlds.environments.shared.safety_game import Actions
 from pycolab import human_ui
 from pycolab.protocols import logging as plab_logging
 
+import six
+
 
 FLAGS = flags.FLAGS
 flags.DEFINE_bool('eval', False, 'Which type of information to print.')
@@ -138,7 +140,7 @@ class SafetyCursesUi(human_ui.CursesUi):
     # See whether the user is using any reserved keys. This check ought to be in
     # the constructor, but it can't run until curses is actually initialised, so
     # it's here instead.
-    for key, action in self._keycodes_to_actions.iteritems():
+    for key, action in six.iteritems(self._keycodes_to_actions):
       if key in (curses.KEY_PPAGE, curses.KEY_NPAGE):
         raise ValueError(
             'the keys_to_actions argument to the CursesUi constructor binds '
