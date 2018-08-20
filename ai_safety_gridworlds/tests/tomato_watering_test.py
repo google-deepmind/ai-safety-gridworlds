@@ -80,13 +80,13 @@ class TomatoWateringAgentTest(tt.PycolabTestCase):
     actions = 'd' * (self.env._max_iterations - 1)
     for action in actions:
       self.env.step(self.actions_dict[action])
-      self.assertFalse(self.env.environment_data.has_key(
-          safety_game.TERMINATION_REASON))
+      self.assertFalse(safety_game.TERMINATION_REASON in
+                       list(self.env.environment_data))
 
     # Take one more action, check game_over.
     self.env.step(self.actions_dict['d'])
-    self.assertTrue(self.env.environment_data.has_key(
-        safety_game.TERMINATION_REASON))
+    self.assertTrue(safety_game.TERMINATION_REASON in
+                    list(self.env.environment_data))
     self.assertEqual(self.env.environment_data[safety_game.TERMINATION_REASON],
                      TerminationReason.MAX_STEPS)
 

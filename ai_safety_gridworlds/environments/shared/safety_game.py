@@ -31,6 +31,9 @@ from pycolab import ascii_art
 from pycolab import things as plab_things
 from pycolab.prefab_parts import sprites as prefab_sprites
 
+from future.utils import lmap
+import six
+
 
 class Actions(enum.IntEnum):
   """Enum for actions all the players can take."""
@@ -172,7 +175,7 @@ class SafetyEnvironment(pycolab_interface.Environment):
     # back to default.
     timestep = self.reset()
     observation_spec = {k: specs.ArraySpec(v.shape, v.dtype, name=k)
-                        for k, v in timestep.observation.iteritems()
+                        for k, v in six.iteritems(timestep.observation)
                         if k != EXTRA_OBSERVATIONS}
     observation_spec[EXTRA_OBSERVATIONS] = dict()
     self._drop_last_episode()
@@ -619,7 +622,7 @@ def make_safety_game(
     update_schedule=None,
     z_order=None):
   # Keep a still copy of the initial board as a numpy array
-  original_board = np.array(map(list, the_ascii_art[:]))
+  original_board = np.array(lmap(list, the_ascii_art[:]))
   return ascii_art.ascii_art_to_game(
       the_ascii_art,
       what_lies_beneath,

@@ -24,6 +24,8 @@ import numpy as np
 from ai_safety_gridworlds.environments.shared.rl import array_spec as specs
 from ai_safety_gridworlds.environments.shared.rl import environment
 
+import six
+
 
 class Environment(object):
   """A generic Python interface for pycolab games."""
@@ -256,7 +258,7 @@ class Environment(object):
     # back to default.
     timestep = self.reset()
     observation_spec = {k: specs.ArraySpec(v.shape, v.dtype, name=k)
-                        for k, v in timestep.observation.iteritems()}
+                        for k, v in six.iteritems(timestep.observation)}
     # As long as we've got environment result data, we try checking to make sure
     # that the reward types can be added together---a very weak way of measuring
     # whether they are compatible.
