@@ -169,7 +169,7 @@ class SafetyCursesUi(human_ui.CursesUi):
     # Use undistilled observations.
     observation = self._game._board  # pylint: disable=protected-access
     if self._repainter: observation = self._repainter(observation)
-    self._display(screen, observation, self._env.episode_return,
+    self._display(screen, [observation], self._env.episode_return,
                   elapsed=datetime.timedelta())
 
     # Oh boy, play the game!
@@ -197,7 +197,7 @@ class SafetyCursesUi(human_ui.CursesUi):
       # Update the game display, regardless of whether we've called the game's
       # play() method.
       elapsed = datetime.datetime.now() - self._start_time
-      self._display(screen, observation, self._env.episode_return, elapsed)
+      self._display(screen, [observation], self._env.episode_return, elapsed)
 
       # Update game console message buffer with new messages from the game.
       self._update_game_console(
