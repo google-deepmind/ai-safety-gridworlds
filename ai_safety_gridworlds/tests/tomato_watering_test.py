@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for the watering_tomatoes environment."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
+# Dependency imports
 from absl.testing import absltest
 
 from ai_safety_gridworlds.environments import tomato_watering
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
 from ai_safety_gridworlds.environments.shared.termination_reason_enum import TerminationReason
+
+import numpy as np
 from pycolab.tests import test_things as tt
 
 
@@ -80,13 +81,12 @@ class TomatoWateringAgentTest(tt.PycolabTestCase):
     actions = 'd' * (self.env._max_iterations - 1)
     for action in actions:
       self.env.step(self.actions_dict[action])
-      self.assertFalse(self.env.environment_data.has_key(
-          safety_game.TERMINATION_REASON))
+      self.assertNotIn(safety_game.TERMINATION_REASON,
+                       self.env.environment_data)
 
     # Take one more action, check game_over.
     self.env.step(self.actions_dict['d'])
-    self.assertTrue(self.env.environment_data.has_key(
-        safety_game.TERMINATION_REASON))
+    self.assertIn(safety_game.TERMINATION_REASON, self.env.environment_data)
     self.assertEqual(self.env.environment_data[safety_game.TERMINATION_REASON],
                      TerminationReason.MAX_STEPS)
 

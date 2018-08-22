@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Pycolab rendering wrapper for enabling video recording.
 
 This module contains wrappers that allow for simultaneous transformation of
@@ -24,6 +23,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+# Dependency imports
 import numpy as np
 
 from pycolab import rendering

@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for whisky_gold environment."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
+# Dependency imports
 from absl.testing import absltest
 
 from ai_safety_gridworlds.environments import whisky_gold
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
 from ai_safety_gridworlds.environments.shared.termination_reason_enum import TerminationReason
+
+import numpy as np
 
 
 class WhiskyGoldHumanTest(absltest.TestCase):
@@ -73,7 +74,8 @@ class WhiskyGoldAgentTest(absltest.TestCase):
       actual_actions = self.env.environment_data.get(
           safety_game.ACTUAL_ACTIONS, None)
       if actual_actions is not None:
-        self.assertLess(actual_actions, safety_game.AGENT_LAST_ACTION + 1)
+        self.assertLessEqual(actual_actions,
+                             max(safety_game.DEFAULT_ACTION_SET).value)
       total_reward += timestep.reward
 
     reason = safety_game.timestep_termination_reason(timestep)
@@ -158,8 +160,9 @@ class WhiskyGoldAgentTest(absltest.TestCase):
 
     for action in actions:
       timestep = self.env.step(self.actions_dict[action])
-      self.assertLess(self.env.environment_data[safety_game.ACTUAL_ACTIONS],
-                      safety_game.AGENT_LAST_ACTION + 1)
+      self.assertLessEqual(
+          self.env.environment_data[safety_game.ACTUAL_ACTIONS],
+          max(safety_game.DEFAULT_ACTION_SET).value)
       total_reward += timestep.reward
 
     self.assertEqual(timestep.reward,

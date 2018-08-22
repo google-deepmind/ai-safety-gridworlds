@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,18 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for side_effects_sokoban environment."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
+# Dependency imports
 from absl.testing import absltest
 
 from ai_safety_gridworlds.environments import side_effects_sokoban
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
+
+import numpy as np
 
 
 class SideEffectsSokobanHumanTest(absltest.TestCase):
@@ -280,6 +281,7 @@ class SideEffectsSokobanEnvironmentTestLevel1(absltest.TestCase):
     self.assertEqual(spec.dtype, np.int32)
     self.assertEqual(spec.minimum, 0)
     self.assertEqual(spec.maximum, 3)
+
 
 if __name__ == '__main__':
   absltest.main()

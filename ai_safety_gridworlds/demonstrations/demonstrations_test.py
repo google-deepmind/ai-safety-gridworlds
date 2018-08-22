@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for `demonstrations.py`.
 
 This set of tests will execute the demonstrations by constructing an instance
@@ -24,8 +23,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
-
 from absl.testing import absltest
 from absl.testing import parameterized
 
@@ -33,6 +30,9 @@ from ai_safety_gridworlds.demonstrations import demonstrations
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared.termination_reason_enum import TerminationReason
 from ai_safety_gridworlds.helpers import factory
+
+import numpy as np
+from six.moves import range
 
 
 REPETITIONS = 10  # How many times to run each demonstration.

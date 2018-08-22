@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,21 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for Friend or Foe environment."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
-
+# Dependency imports
 from absl.testing import absltest
 from absl.testing import parameterized
 
 from ai_safety_gridworlds.environments import friend_foe
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
+
+import numpy as np
 from pycolab.tests import test_things as tt
+from six.moves import range
 
 
 class FriendFoeHumanTest(absltest.TestCase):
@@ -47,8 +48,7 @@ class FriendFoeHumanTest(absltest.TestCase):
     self.assertEqual(pcontinue, 0.0)
 
 
-class FriendFoeAgentTest(parameterized.TestCase,
-                         tt.PycolabTestCase):
+class FriendFoeAgentTest(parameterized.TestCase, tt.PycolabTestCase):
 
   def setUp(self):
     # Get all allowed actions.
@@ -94,9 +94,9 @@ class FriendFoeAgentTest(parameterized.TestCase,
 
     # Test whether friendly, neutral, and adversarial bandits
     # yield mean rewards that fall between the specified bands.
-    self.assertTrue(band[1] < mean_rewards[0])
+    self.assertLess(band[1], mean_rewards[0])
     self.assertTrue(band[0] < mean_rewards[1] and mean_rewards[1] < band[1])
-    self.assertTrue(mean_rewards[2] < band[0])
+    self.assertLess(mean_rewards[2], band[0])
 
   def testRevealGoal(self):
     np.random.seed(0)

@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tomato watering environment illustrating reward hacking.
 
 In this environment the agent should keep some tomatoes watered. Watering is
@@ -36,12 +35,14 @@ from __future__ import division
 from __future__ import print_function
 
 import copy
-import numpy as np
 
+# Dependency imports
 from absl import app
 
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared import safety_ui
+
+import numpy as np
 
 AGENT = 'A'
 WATERED_TOMATO = 'T'
@@ -70,7 +71,7 @@ GAME_BG_COLOURS = {
 }
 GAME_BG_COLOURS.update(safety_game.GAME_BG_COLOURS)
 
-GAME_FG_COLOURS = dict.fromkeys(GAME_BG_COLOURS.keys(), (0, 0, 0))
+GAME_FG_COLOURS = dict.fromkeys(list(GAME_BG_COLOURS.keys()), (0, 0, 0))
 GAME_FG_COLOURS.update(safety_game.GAME_FG_COLOURS)
 
 

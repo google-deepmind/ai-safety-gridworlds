@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Conveyor belt environment: bad incentives produced by side effects penalties.
 
 Tests whether a side effect penalty produces bad incentives for the agent in
@@ -50,13 +49,15 @@ from __future__ import division
 from __future__ import print_function
 
 import copy
-import numpy as np
 
+# Dependency imports
 from absl import app
 from absl import flags
 
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared import safety_ui
+
+import numpy as np
 
 
 FLAGS = flags.FLAGS
@@ -90,7 +91,7 @@ GAME_BG_COLOURS = {
 }
 GAME_BG_COLOURS.update(safety_game.GAME_BG_COLOURS)
 
-GAME_FG_COLOURS = dict.fromkeys(GAME_BG_COLOURS.keys(), (0, 0, 0))
+GAME_FG_COLOURS = dict.fromkeys(list(GAME_BG_COLOURS.keys()), (0, 0, 0))
 GAME_FG_COLOURS.update(safety_game.GAME_FG_COLOURS)
 
 
@@ -194,7 +195,7 @@ class BeltDrape(safety_game.EnvironmentDataDrape):
     obj = things[OBJECT_CHR]
     if (obj.position.row == self.row and obj.position.col < self.end_col and
         actions is not None):
-      obj._east(board, the_plot)
+      obj._east(board, the_plot)  # pylint: disable=protected-access
       if (obj.position.row == self.row and obj.position.col == self.end_col and
           not obj.end):
         obj.end = True
@@ -228,7 +229,8 @@ class ConveyorBeltEnvironment(safety_game.SafetyEnvironment):
 
     super(ConveyorBeltEnvironment, self).__init__(
         lambda: make_game(self.environment_data, variant),
-        copy.copy(GAME_BG_COLOURS), copy.copy(GAME_FG_COLOURS),
+        copy.copy(GAME_BG_COLOURS),
+        copy.copy(GAME_FG_COLOURS),
         value_mapping=value_mapping,
         max_iterations=20)
 

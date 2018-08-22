@@ -27,5 +27,5 @@ the CLA can be accepted into the main repository.
 ### Contributing code
 
 If you have improvements or new environments for the AI Safety framework,
-send us your pull requests! For those just getting started, Github has a
+send us your pull requests! For those just getting started, GitHub has a
 [howto](https://help.github.com/articles/using-pull-requests/).

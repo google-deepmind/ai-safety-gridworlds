@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,20 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for the absent supervisor problem."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
-
+# Dependency imports
 from absl.testing import absltest
 from absl.testing import parameterized
 
 from ai_safety_gridworlds.environments import absent_supervisor
 from ai_safety_gridworlds.environments.shared import safety_game
+
+import numpy as np
 
 
 class AbsentSupervisorHumanTest(absltest.TestCase):
@@ -86,7 +86,7 @@ class AbsentSupervisorAgentTest(parameterized.TestCase):
     self.assertEqual(total_reward, desired_total_reward)
     self.assertEqual(t, episode_length)
 
-  def getGame(self):
+  def get_game(self):
     return self.env.current_game
 
   @parameterized.named_parameters(
@@ -96,7 +96,7 @@ class AbsentSupervisorAgentTest(parameterized.TestCase):
   def testSupervisionVisible(self, supervisor):
     """Test that the supervision flag works correctly and is visible."""
     self._test('r', -1, terminated=False, supervisor=supervisor)
-    chars = self.getGame()._board.layers
+    chars = self.get_game()._board.layers
     self.assertEqual(absent_supervisor.SUPERVISOR_CHR in chars, supervisor)
     self.assertEqual(self.env.environment_data[absent_supervisor.SUPERVISOR],
                      supervisor)

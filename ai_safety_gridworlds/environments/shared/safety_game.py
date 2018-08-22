@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Helpers for creating safety environments."""
 
 from __future__ import absolute_import
@@ -20,26 +19,39 @@ from __future__ import division
 from __future__ import print_function
 
 import abc
-import enum
-import numpy as np
 
+# Dependency imports
 from ai_safety_gridworlds.environments.shared import observation_distiller
 from ai_safety_gridworlds.environments.shared.rl import array_spec as specs
 from ai_safety_gridworlds.environments.shared.rl import pycolab_interface
 from ai_safety_gridworlds.environments.shared.termination_reason_enum import TerminationReason
+
+import enum
+import numpy as np
+
 from pycolab import ascii_art
 from pycolab import things as plab_things
 from pycolab.prefab_parts import sprites as prefab_sprites
 
+import six
+from six.moves import map
+from six.moves import range
+
 
 class Actions(enum.IntEnum):
-  """Enum for actions all the players can take."""
+  """Enum for actions all the players can take.
+
+  Warning: Do not rely on these numbers staying as they are, they might change
+  in future iterations of the library. Always refer to all the action using
+  their respective enum names.
+  """
   UP = 0
   DOWN = 1
   LEFT = 2
   RIGHT = 3
+  NOOP = 4
   # Human only.
-  QUIT = 4
+  QUIT = 5
 
 
 # Colours common in all environments.
@@ -52,8 +64,8 @@ GAME_FG_COLOURS = {' ': (858, 858, 858),
                    'A': (0, 0, 0),
                    'G': (0, 0, 0)}
 
-# The maximal value of an action that an agent can take.
-AGENT_LAST_ACTION = Actions.RIGHT.value
+# If not specified otherwise, these are the actions a game will use.
+DEFAULT_ACTION_SET = [Actions.UP, Actions.DOWN, Actions.LEFT, Actions.RIGHT]
 
 # Some constants to use with the environment_data dictionary to avoid
 ENV_DATA = 'environment_data'
@@ -98,7 +110,7 @@ class SafetyEnvironment(pycolab_interface.Environment):
       game_bg_colours: a dict mapping game characters to background RGB colours.
       game_fg_colours: a dict mapping game characters to foreground RGB colours.
       actions: a tuple of ints, indicating an inclusive range of actions the
-        agent can take. Defaults to (0, AGENT_LAST_ACTION).
+        agent can take. Defaults to DEFAULT_ACTION_SET range.
       value_mapping: a dictionary mapping characters from the game ascii map
         into floats. Used to control how the agent sees the game ascii map, e.g.
         if we are not making a difference between environment background and
@@ -132,7 +144,7 @@ class SafetyEnvironment(pycolab_interface.Environment):
     self._keys_to_clear = [TERMINATION_REASON, ACTUAL_ACTIONS]
 
     if actions is None:
-      actions = (0, AGENT_LAST_ACTION)
+      actions = (min(DEFAULT_ACTION_SET).value, max(DEFAULT_ACTION_SET).value)
 
     if value_mapping is None:
       value_mapping = {chr(i): i for i in range(256)}
@@ -164,7 +176,7 @@ class SafetyEnvironment(pycolab_interface.Environment):
     return self._episode_return
 
   def _compute_observation_spec(self):
-    """Helper for `__init__`: compute our environment's action spec."""
+    """Helper for `__init__`: compute our environment's observation spec."""
     # This method needs to be overwritten because the parent's method checks
     # all the items in the observation and chokes on the `environment_data`.
 
@@ -172,7 +184,7 @@ class SafetyEnvironment(pycolab_interface.Environment):
     # back to default.
     timestep = self.reset()
     observation_spec = {k: specs.ArraySpec(v.shape, v.dtype, name=k)
-                        for k, v in timestep.observation.iteritems()
+                        for k, v in six.iteritems(timestep.observation)
                         if k != EXTRA_OBSERVATIONS}
     observation_spec[EXTRA_OBSERVATIONS] = dict()
     self._drop_last_episode()
@@ -500,7 +512,7 @@ class EnvironmentDataDrape(plab_things.Drape):
     pass
 
 
-class PolicyWrapperDrape(EnvironmentDataDrape):
+class PolicyWrapperDrape(six.with_metaclass(abc.ABCMeta, EnvironmentDataDrape)):
   """A `Drape` parent class for policy wrappers.
 
   Policy wrappers change the entry ACTUAL_ACTIONS in the the_plot
@@ -510,8 +522,6 @@ class PolicyWrapperDrape(EnvironmentDataDrape):
   and update the current value in the dictionary.
   This value may be used by the agent sprite in place of the agent's action.
   """
-
-  __metaclass__ = abc.ABCMeta
 
   ACTIONS_KEY = ACTUAL_ACTIONS
 
@@ -578,7 +588,7 @@ class PolicyWrapperDrape(EnvironmentDataDrape):
       del the_plot[cls.ACTIONS_KEY]
 
 
-# Helper function used in various files
+# Helper function used in various files.
 def timestep_termination_reason(timestep, default=None):
   return timestep.observation[EXTRA_OBSERVATIONS].get(
       TERMINATION_REASON, default)
@@ -618,8 +628,9 @@ def make_safety_game(
     drapes=None,
     update_schedule=None,
     z_order=None):
+  """Create a pycolab game instance."""
   # Keep a still copy of the initial board as a numpy array
-  original_board = np.array(map(list, the_ascii_art[:]))
+  original_board = np.array(list(map(list, the_ascii_art[:])))
   return ascii_art.ascii_art_to_game(
       the_ascii_art,
       what_lies_beneath,

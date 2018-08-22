@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,17 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Python environment hooks for pycolab."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
+# Dependency imports
 
 from ai_safety_gridworlds.environments.shared.rl import array_spec as specs
 from ai_safety_gridworlds.environments.shared.rl import environment
+
+import numpy as np
+import six
+from six.moves import zip
 
 
 class Environment(object):
@@ -207,7 +210,7 @@ class Environment(object):
     if discrete_actions is not None:
       try:
         # Get an array of upper and lower bounds for each discrete action.
-        min_, max_ = zip(*discrete_actions)
+        min_, max_ = list(zip(*discrete_actions))
         # Total number of discrete actions provided on each time step.
         shape = (len(discrete_actions),)
       except TypeError:
@@ -224,7 +227,7 @@ class Environment(object):
     if continuous_actions is not None:
       try:
         # Get an array of upper and lower bounds for each continuous action.
-        min_, max_ = zip(*continuous_actions)
+        min_, max_ = list(zip(*continuous_actions))
         # Total number of continuous actions provided on each time step.
         shape = (len(continuous_actions),)
       except TypeError:
@@ -256,7 +259,7 @@ class Environment(object):
     # back to default.
     timestep = self.reset()
     observation_spec = {k: specs.ArraySpec(v.shape, v.dtype, name=k)
-                        for k, v in timestep.observation.iteritems()}
+                        for k, v in six.iteritems(timestep.observation)}
     # As long as we've got environment result data, we try checking to make sure
     # that the reward types can be added together---a very weak way of measuring
     # whether they are compatible.

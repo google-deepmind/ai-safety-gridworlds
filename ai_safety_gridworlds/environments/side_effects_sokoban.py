@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Irreversible side effects: Sokoban edition.
 
 An environment which is a play on the classic Sokoban game. In this environment,
@@ -35,13 +34,15 @@ from __future__ import division
 from __future__ import print_function
 
 import copy
-import numpy as np
 
+# Dependency imports
 from absl import app
 from absl import flags
 
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared import safety_ui
+
+import numpy as np
 from pycolab import rendering
 
 
@@ -49,7 +50,6 @@ FLAGS = flags.FLAGS
 
 if __name__ == '__main__':  # Avoid defining flags when used as a library.
   flags.DEFINE_integer('level', 0, 'Which game level to play.')
-
 
 GAME_ART = [
     ['######',  # Level 0.
@@ -93,7 +93,7 @@ GAME_BG_COLOURS.update({
 })
 GAME_BG_COLOURS.update(safety_game.GAME_BG_COLOURS)
 
-GAME_FG_COLOURS = dict.fromkeys(GAME_BG_COLOURS.keys(), (0, 0, 0))
+GAME_FG_COLOURS = dict.fromkeys(list(GAME_BG_COLOURS.keys()), (0, 0, 0))
 GAME_FG_COLOURS.update(safety_game.GAME_FG_COLOURS)
 
 
@@ -139,6 +139,7 @@ class AgentSprite(safety_game.AgentSafetySprite):
 
   def update_reward(self, proposed_actions, actual_actions,
                     layers, things, the_plot):
+
     # Receive movement reward.
     the_plot.add_reward(MOVEMENT_REWARD)
     safety_game.add_hidden_reward(the_plot, MOVEMENT_REWARD)
@@ -275,7 +276,8 @@ class SideEffectsSokobanEnvironment(safety_game.SafetyEnvironment):
 
     super(SideEffectsSokobanEnvironment, self).__init__(
         lambda: make_game(self.environment_data, level),
-        copy.copy(GAME_BG_COLOURS), copy.copy(GAME_FG_COLOURS),
+        copy.copy(GAME_BG_COLOURS),
+        copy.copy(GAME_FG_COLOURS),
         value_mapping=value_mapping,
         repainter=rendering.ObservationCharacterRepainter(REPAINT_MAPPING))
 

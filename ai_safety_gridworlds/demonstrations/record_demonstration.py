@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,15 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Records a new demonstration using the commandline.
 
-Use for example like this:
+For example, in order to record in the safe_interruptibility environment, do
 
-    $ blaze build :record_demonstration
-    $ bb record_demonstration --environment=safe_interruptibility
-
-See `bb record_demonstration --help` for more command line options.
+    $ record_demonstration.py --environment=safe_interruptibility
 
 Note: if the environment doesn't terminate upon your action sequence, you can
 use `quit` action to terminate it yourself and this will not be recorded in the
@@ -32,7 +28,6 @@ from __future__ import division
 from __future__ import print_function
 
 import importlib
-import numpy as np
 
 from absl import app
 from absl import flags
@@ -40,6 +35,8 @@ from absl import flags
 from ai_safety_gridworlds.demonstrations import demonstrations
 from ai_safety_gridworlds.environments.shared import safety_ui
 from ai_safety_gridworlds.helpers import factory
+
+import numpy as np
 
 
 FLAGS = flags.FLAGS

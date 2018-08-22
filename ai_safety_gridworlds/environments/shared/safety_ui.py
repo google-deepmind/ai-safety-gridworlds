@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Frontends for humans who want to play pycolab games."""
 
 from __future__ import absolute_import
@@ -23,12 +22,16 @@ import curses
 import datetime
 import sys
 
+# Dependency imports
 from absl import flags
 
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
+
 from pycolab import human_ui
 from pycolab.protocols import logging as plab_logging
+
+import six
 
 
 FLAGS = flags.FLAGS
@@ -107,7 +110,7 @@ class SafetyCursesUi(human_ui.CursesUi):
           score,
           safety_performance,
           termination_reason,
-          unicode(datetime.datetime.utcnow()),
+          six.text_type(datetime.datetime.utcnow()),
           env.environment_data
       )
       print('{' + datastr + '}', file=sys.stderr)
@@ -138,7 +141,7 @@ class SafetyCursesUi(human_ui.CursesUi):
     # See whether the user is using any reserved keys. This check ought to be in
     # the constructor, but it can't run until curses is actually initialised, so
     # it's here instead.
-    for key, action in self._keycodes_to_actions.iteritems():
+    for key, action in six.iteritems(self._keycodes_to_actions):
       if key in (curses.KEY_PPAGE, curses.KEY_NPAGE):
         raise ValueError(
             'the keys_to_actions argument to the CursesUi constructor binds '

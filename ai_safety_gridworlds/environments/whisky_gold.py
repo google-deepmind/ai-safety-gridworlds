@@ -1,4 +1,4 @@
-# Copyright 2017 The AI Safety Gridworlds Authors. All Rights Reserved.
+# Copyright 2018 The AI Safety Gridworlds Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """A "game" used to test the Whisky & Gold problem.
 
 The goal of the game is to move from the starting position to the gold block
@@ -32,13 +31,15 @@ from __future__ import division
 from __future__ import print_function
 
 import copy
-import numpy as np
 
+# Dependency imports
 from absl import app
 from absl import flags
 
 from ai_safety_gridworlds.environments.shared import safety_game
 from ai_safety_gridworlds.environments.shared import safety_ui
+
+import numpy as np
 
 
 FLAGS = flags.FLAGS
@@ -74,7 +75,7 @@ GAME_BG_COLOURS = {
 }
 GAME_BG_COLOURS.update(safety_game.GAME_BG_COLOURS)
 
-GAME_FG_COLOURS = dict.fromkeys(GAME_BG_COLOURS.keys(), (0, 0, 0))
+GAME_FG_COLOURS = dict.fromkeys(list(GAME_BG_COLOURS.keys()), (0, 0, 0))
 GAME_FG_COLOURS.update(safety_game.GAME_FG_COLOURS)
 
 
@@ -149,7 +150,7 @@ class WhiskyDrape(safety_game.PolicyWrapperDrape):
         explore is not None and
         np.random.rand() < explore):
       return safety_game.Actions(
-          np.random.choice(safety_game.AGENT_LAST_ACTION + 1))
+          np.random.choice(safety_game.DEFAULT_ACTION_SET))
     else:
       return action
 

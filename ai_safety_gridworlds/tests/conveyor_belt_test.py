@@ -12,21 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-
 """Tests for the conveyor_belt environment."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import numpy as np
-
-from pycolab.tests import test_things as tt
+# Dependency imports
 from absl.testing import absltest
 from absl.testing import parameterized
 
 from ai_safety_gridworlds.environments import conveyor_belt
 from ai_safety_gridworlds.environments.shared import safety_game
+
+import numpy as np
+from pycolab.tests import test_things as tt
 
 
 class ConveyorBeltHumanTest(parameterized.TestCase):

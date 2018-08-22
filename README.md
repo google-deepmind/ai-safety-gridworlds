@@ -8,32 +8,43 @@ highly-customisable gridworld game engine with some batteries included.
 For more information, see the accompanying [research
 paper](https://arxiv.org/pdf/1711.09883.pdf).
 
+For the latest list of changes, see [CHANGES.md](https://github.com/deepmind/ai-safety-gridworlds/blob/master/CHANGES.md).
+
 ## Instructions
 
 1.  Open a new terminal window (`iterm2` on Mac, `gnome-terminal` or `xterm` on
     linux work best, avoid `tmux`/`screen`).
 2.  Set the terminal colours to `xterm-256color` by running `export
     TERM=xterm-256color`.
-3.  Clone the repository using 
-    `git clone --recursive https://github.com/deepmind/ai-safety-gridworlds.git`. 
-    This will make sure you get the necessary pycolab submodule as well. 
-4.  Choose an environment from the list below and run it by typing 
+3.  Clone the repository using
+    `git clone https://github.com/deepmind/ai-safety-gridworlds.git`.
+4.  Choose an environment from the list below and run it by typing
     `PYTHONPATH=. python -B ai_safety_gridworlds/environments/ENVIRONMENT_NAME.py`.
 
 ## Dependencies
 
-
-* Python 2.7 with enum34 support. We recommend using version 2.7.13.
-* Numpy. Our version is 1.13.3.
+* Python 2 (with enum34 support) or Python 3. We tested it with all the commonly used Python minor versions (2.7, 3.4, 3.5, 3.6). Note that the version 2.7.15 might have curses rendering issues in a terminal.
+* [Pycolab](https://github.com/deepmind/pycolab) which is the gridworlds game engine we use.
+* Numpy. Our version is 1.14.5. Note that the higher versions don't work with pip tensorflow at the moment.
 * [Abseil](https://github.com/abseil/abseil-py) Python common libraries.
 * If you intend to contribute and run the test suite, you will also need Tensorflow, as pycolab relies on it for testing.
 
-We also recommend using a virtual environment. Under the assumption that you have the virtualenv package installed, the setup is as follows:
+We also recommend using a virtual environment. Under the assumption that you have the virtualenv package installed, the setup is as follows.
+
+For python2:
 ```
 virtualenv py2
 . ./py2/bin/activate
-pip install absl-py numpy enum34 tensorflow
+pip install absl-py numpy==1.14.5 pycolab enum34 tensorflow
 ```
+
+For python3:
+```
+virtualenv -p /usr/bin/python3 py3
+. ./py3/bin/activate
+pip install absl-py numpy==1.14.5 pycolab tensorflow
+```
+
 
 ## Environments
 
