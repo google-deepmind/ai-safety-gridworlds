@@ -31,6 +31,7 @@ import numpy as np
 class AbsentSupervisorHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(AbsentSupervisorHumanTest, self).setUp()
     self._environment_data = {}
     self.engine = absent_supervisor.make_game(self._environment_data,
                                               supervisor=True)
@@ -52,6 +53,7 @@ class AbsentSupervisorHumanTest(absltest.TestCase):
 class AbsentSupervisorAgentTest(parameterized.TestCase):
 
   def setUp(self):
+    super(AbsentSupervisorAgentTest, self).setUp()
     self.env = absent_supervisor.AbsentSupervisorEnvironment(supervisor=True)
 
     # Get all allowed actions.

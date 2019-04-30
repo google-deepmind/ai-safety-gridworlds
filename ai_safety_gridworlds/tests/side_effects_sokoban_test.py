@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ============================================================================
-"""Tests for side_effects_sokoban environment."""
+"""Tests for side_effects_sokoban_noop environment."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -20,6 +20,7 @@ from __future__ import print_function
 
 # Dependency imports
 from absl.testing import absltest
+from absl.testing import parameterized
 
 from ai_safety_gridworlds.environments import side_effects_sokoban
 from ai_safety_gridworlds.environments.shared.safety_game import Actions
@@ -30,6 +31,7 @@ import numpy as np
 class SideEffectsSokobanHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(SideEffectsSokobanHumanTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT, 'r': Actions.RIGHT,
                          'u': Actions.UP, 'd': Actions.DOWN,
@@ -45,14 +47,16 @@ class SideEffectsSokobanHumanTest(absltest.TestCase):
     self.assertEqual(pcontinue, 0.0)
 
 
-class SideEffectsSokobanEnvironmentTestLevel0(absltest.TestCase):
+class SideEffectsSokobanEnvironmentTestLevel0(parameterized.TestCase):
 
   def setUp(self):
+    super(SideEffectsSokobanEnvironmentTestLevel0, self).setUp()
     self.env = side_effects_sokoban.SideEffectsSokobanEnvironment(level=0)
 
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT.value, 'r': Actions.RIGHT.value,
-                         'u': Actions.UP.value, 'd': Actions.DOWN.value}
+                         'u': Actions.UP.value, 'd': Actions.DOWN.value,
+                         'n': Actions.NOOP.value}
 
   def testRewards(self):
     # Check if the reset reward is None.
@@ -113,6 +117,17 @@ class SideEffectsSokobanEnvironmentTestLevel0(absltest.TestCase):
     self.assertEqual(box_position_new.row, box_position.row)
     self.assertEqual(box_position_new.col, box_position.col)
 
+  def testNoop(self):
+    """Test that noops don't impact any rewards or game states."""
+    self.env.reset()
+    actions = 'nn'
+    total_reward = 0
+    for action in actions:
+      timestep = self.env.step(self.actions_dict[action])
+      total_reward += timestep.reward
+    self.assertEqual(total_reward, 0)
+    self.assertEqual(self.env._get_hidden_reward(), 0)
+
   def testObservationSpec(self):
     spec = self.env.observation_spec()
     self.assertEqual(spec['board'].shape, (6, 6))
@@ -120,22 +135,30 @@ class SideEffectsSokobanEnvironmentTestLevel0(absltest.TestCase):
     self.assertEqual(spec['RGB'].shape, (3, 6, 6))
     self.assertEqual(spec['RGB'].dtype, np.uint8)
 
-  def testActionSpec(self):
+  @parameterized.named_parameters(
+      ('NoopFalse', False, 3),
+      ('NoopTrue', True, 4),
+  )
+  def testActionSpec(self, noops, num_actions):
+    self.env = side_effects_sokoban.SideEffectsSokobanEnvironment(
+        level=0, noops=noops)
     spec = self.env.action_spec()
     self.assertEqual(spec.shape, (1,))
     self.assertEqual(spec.dtype, np.int32)
     self.assertEqual(spec.minimum, 0)
-    self.assertEqual(spec.maximum, 3)
+    self.assertEqual(spec.maximum, num_actions)
 
 
-class SideEffectsSokobanEnvironmentTestLevel1(absltest.TestCase):
+class SideEffectsSokobanEnvironmentTestLevel1(parameterized.TestCase):
 
   def setUp(self):
+    super(SideEffectsSokobanEnvironmentTestLevel1, self).setUp()
     self.env = side_effects_sokoban.SideEffectsSokobanEnvironment(level=1)
 
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT.value, 'r': Actions.RIGHT.value,
-                         'u': Actions.UP.value, 'd': Actions.DOWN.value}
+                         'u': Actions.UP.value, 'd': Actions.DOWN.value,
+                         'n': Actions.NOOP.value}
 
   def testRewards(self):
     # Check if the reset reward is None.
@@ -268,6 +291,17 @@ class SideEffectsSokobanEnvironmentTestLevel1(absltest.TestCase):
     self.assertEqual(self.env._get_hidden_reward(), expected_reward)
     self.assertEqual(timestep.discount, 0.0)
 
+  def testNoop(self):
+    """Test that noops don't impact any rewards or game states."""
+    self.env.reset()
+    actions = 'nn'
+    total_reward = 0
+    for action in actions:
+      timestep = self.env.step(self.actions_dict[action])
+      total_reward += timestep.reward
+    self.assertEqual(total_reward, 0)
+    self.assertEqual(self.env._get_hidden_reward(), 0)
+
   def testObservationSpec(self):
     spec = self.env.observation_spec()
     self.assertEqual(spec['board'].shape, (10, 10))
@@ -275,12 +309,18 @@ class SideEffectsSokobanEnvironmentTestLevel1(absltest.TestCase):
     self.assertEqual(spec['RGB'].shape, (3, 10, 10))
     self.assertEqual(spec['RGB'].dtype, np.uint8)
 
-  def testActionSpec(self):
+  @parameterized.named_parameters(
+      ('NoopFalse', False, 3),
+      ('NoopTrue', True, 4),
+  )
+  def testActionSpec(self, noops, num_actions):
+    self.env = side_effects_sokoban.SideEffectsSokobanEnvironment(
+        level=1, noops=noops)
     spec = self.env.action_spec()
     self.assertEqual(spec.shape, (1,))
     self.assertEqual(spec.dtype, np.int32)
     self.assertEqual(spec.minimum, 0)
-    self.assertEqual(spec.maximum, 3)
+    self.assertEqual(spec.maximum, num_actions)
 
 
 if __name__ == '__main__':

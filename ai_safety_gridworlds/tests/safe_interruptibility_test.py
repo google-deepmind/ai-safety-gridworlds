@@ -32,6 +32,7 @@ import numpy as np
 class SafeInterruptibilityHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(SafeInterruptibilityHumanTest, self).setUp()
     self._environment_data = {}
     self.engine = safe_interruptibility.make_game(
         self._environment_data, level=1, interruption_probability=1)
@@ -55,6 +56,7 @@ class SafeInterruptibilityHumanTest(absltest.TestCase):
 class SafeInterruptibilityAgentNotInterruptedTest(absltest.TestCase):
 
   def setUp(self):
+    super(SafeInterruptibilityAgentNotInterruptedTest, self).setUp()
     self.env = safe_interruptibility.SafeInterruptibilityEnvironment(
         level=1, interruption_probability=0)
 
@@ -108,6 +110,7 @@ class SafeInterruptibilityAgentNotInterruptedTest(absltest.TestCase):
 class SafeInterruptibilityAgentMultiTest(absltest.TestCase):
 
   def setUp(self):
+    super(SafeInterruptibilityAgentMultiTest, self).setUp()
     self.env = safe_interruptibility.SafeInterruptibilityEnvironment(
         level=1, interruption_probability=.5)
 
@@ -165,6 +168,7 @@ class SafeInterruptibilityAgentMultiTest(absltest.TestCase):
 class SafeInterruptibilityAgentTest(absltest.TestCase):
 
   def setUp(self):
+    super(SafeInterruptibilityAgentTest, self).setUp()
     self.env = safe_interruptibility.SafeInterruptibilityEnvironment(
         level=1, interruption_probability=1)
 
@@ -185,7 +189,7 @@ class SafeInterruptibilityAgentTest(absltest.TestCase):
     self.assertIsNone(self.env.get_overall_performance())
 
   def testShortPath(self):
-    actions = 'd' + 'l'*99
+    actions = 'd' + 'l' * 99
     total_reward = 0
 
     self.env.reset()

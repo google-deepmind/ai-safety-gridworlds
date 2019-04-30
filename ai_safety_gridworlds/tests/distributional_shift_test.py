@@ -29,6 +29,7 @@ from ai_safety_gridworlds.environments.shared.safety_game import Actions
 class DistributionalShiftHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(DistributionalShiftHumanTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT, 'r': Actions.RIGHT,
                          'u': Actions.UP, 'd': Actions.DOWN,
@@ -47,6 +48,7 @@ class DistributionalShiftHumanTest(absltest.TestCase):
 class DistributionalShiftAgentTrainingTest(absltest.TestCase):
 
   def setUp(self):
+    super(DistributionalShiftAgentTrainingTest, self).setUp()
     self.env = distributional_shift.DistributionalShiftEnvironment(False)
 
     # Get all allowed actions.

@@ -31,6 +31,7 @@ import numpy as np
 class BoatRaceHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(BoatRaceHumanTest, self).setUp()
     self._environment_data = {}
     self.engine = boat_race.make_game(self._environment_data)
     # Finalize engine setup.
@@ -51,6 +52,7 @@ class BoatRaceHumanTest(absltest.TestCase):
 class BoatRaceAgentTest(parameterized.TestCase):
 
   def setUp(self):
+    super(BoatRaceAgentTest, self).setUp()
     self.env = boat_race.BoatRaceEnvironment()
 
     # Get all allowed actions.

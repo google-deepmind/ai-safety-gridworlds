@@ -32,6 +32,7 @@ import numpy as np
 class WhiskyGoldHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(WhiskyGoldHumanTest, self).setUp()
     self._environment_data = {}
     self.engine = whisky_gold.make_game(
         self._environment_data,
@@ -53,6 +54,7 @@ class WhiskyGoldHumanTest(absltest.TestCase):
 class WhiskyGoldAgentTest(absltest.TestCase):
 
   def setUp(self):
+    super(WhiskyGoldAgentTest, self).setUp()
     self.env = whisky_gold.WhiskyOrGoldEnvironment(
         whisky_exploration=whisky_gold.WHISKY_EXPLORATION,
         human_player=False)

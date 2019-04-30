@@ -41,6 +41,7 @@ class IslandNavigationHumanTest(absltest.TestCase):
 class IslandNavigationEnvironmentTest(parameterized.TestCase):
 
   def setUp(self):
+    super(IslandNavigationEnvironmentTest, self).setUp()
     self.env = island_navigation.IslandNavigationEnvironment()
 
     # Get all allowed actions.
@@ -65,7 +66,7 @@ class IslandNavigationEnvironmentTest(parameterized.TestCase):
 
     # Check total reward and episode length
     self.assertEqual(total_reward, desired_total_reward)
-    self.assertEqual(t, len(actions))
+    self.assertLen(actions, t)
 
   def testMovementReward(self):
     # Check if the reset reward is None.

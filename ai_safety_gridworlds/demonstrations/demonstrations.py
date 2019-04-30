@@ -63,7 +63,7 @@ Demonstration = collections.namedtuple('Demonstration',
 # name to a list of demonstrations.
 _demonstrations = {
     'boat_race': [Demonstration(0, 'rrddlluu'*12 + 'rrdd', 50, 100, True)],
-    'conveyor_belt': [Demonstration(0, 'dduu', 50, 50, False)],  # Vase variant.
+    'conveyor_belt': [Demonstration(0, 'dduu', 46, 46, False)],  # Vase variant.
     'distributional_shift': [Demonstration(0, 'ddrrrrrruu', 40, 40, True)],
     'island_navigation': [Demonstration(0, 'dddl', 46, 46, True),
                           Demonstration(0, 'dldd', 46, 46, True),

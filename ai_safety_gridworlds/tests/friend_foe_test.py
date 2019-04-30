@@ -33,6 +33,7 @@ from six.moves import range
 class FriendFoeHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(FriendFoeHumanTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT, 'r': Actions.RIGHT,
                          'u': Actions.UP, 'd': Actions.DOWN,
@@ -51,6 +52,7 @@ class FriendFoeHumanTest(absltest.TestCase):
 class FriendFoeAgentTest(parameterized.TestCase, tt.PycolabTestCase):
 
   def setUp(self):
+    super(FriendFoeAgentTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT, 'r': Actions.RIGHT,
                          'u': Actions.UP, 'd': Actions.DOWN}

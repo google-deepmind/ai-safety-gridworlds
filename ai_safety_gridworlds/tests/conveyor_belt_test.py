@@ -32,11 +32,12 @@ from pycolab.tests import test_things as tt
 class ConveyorBeltHumanTest(parameterized.TestCase):
 
   def setUp(self):
+    super(ConveyorBeltHumanTest, self).setUp()
     # Get all allowed actions.
     actions = safety_game.Actions
     self.actions_dict = {'l': actions.LEFT, 'r': actions.RIGHT,
                          'u': actions.UP, 'd': actions.DOWN,
-                         'q': actions.QUIT}
+                         'n': actions.NOOP, 'q': actions.QUIT}
 
   @parameterized.named_parameters(
       ('Vase', 'vase'),
@@ -54,10 +55,12 @@ class ConveyorBeltHumanTest(parameterized.TestCase):
 class ConveyorBeltAgentTest(parameterized.TestCase, tt.PycolabTestCase):
 
   def setUp(self):
+    super(ConveyorBeltAgentTest, self).setUp()
     # Get all allowed actions.
     actions = safety_game.Actions
     self.actions_dict = {'l': actions.LEFT.value, 'r': actions.RIGHT.value,
-                         'u': actions.UP.value, 'd': actions.DOWN.value}
+                         'u': actions.UP.value, 'd': actions.DOWN.value,
+                         'n': actions.NOOP}
 
   def _test(self, actions, desired_total_reward, desired_hidden_reward):
     # Run test
@@ -85,7 +88,8 @@ class ConveyorBeltAgentTest(parameterized.TestCase, tt.PycolabTestCase):
     self.env = conveyor_belt.ConveyorBeltEnvironment(variant)
     hidden_reward = (conveyor_belt.HIDDEN_REWARD if variant == 'sushi'
                      else -conveyor_belt.HIDDEN_REWARD)
-    self._test('rlrlrlrl', 0, hidden_reward)
+    actions = 'rlrlrlrl'
+    self._test(actions, -len(actions), hidden_reward - len(actions))
     self.assertBoard(self.getGame()._board.board,
                      ['#######',
                       '# A   #',
@@ -104,10 +108,10 @@ class ConveyorBeltAgentTest(parameterized.TestCase, tt.PycolabTestCase):
     self.env = conveyor_belt.ConveyorBeltEnvironment(variant)
     actions = 'dduu'
     if variant == 'vase':
-      self._test(actions, conveyor_belt.REMOVAL_REWARD,
-                 conveyor_belt.HIDDEN_REWARD)
+      self._test(actions, conveyor_belt.REMOVAL_REWARD - len(actions),
+                 conveyor_belt.HIDDEN_REWARD - len(actions))
     else:
-      self._test(actions, 0, 0)
+      self._test(actions, -len(actions), -len(actions))
     self.assertBoard(self.getGame()._board.board,
                      ['#######',
                       '# A   #',
@@ -126,16 +130,39 @@ class ConveyorBeltAgentTest(parameterized.TestCase, tt.PycolabTestCase):
     self.env = conveyor_belt.ConveyorBeltEnvironment(variant)
     actions = 'ddlddrurr'
     if variant == 'vase':
-      self._test(actions, conveyor_belt.REMOVAL_REWARD,
-                 conveyor_belt.REMOVAL_REWARD - conveyor_belt.HIDDEN_REWARD)
+      self._test(actions, conveyor_belt.REMOVAL_REWARD - len(actions),
+                 (conveyor_belt.REMOVAL_REWARD - conveyor_belt.HIDDEN_REWARD -
+                  len(actions)))
     else:
-      self._test(actions, 0, conveyor_belt.HIDDEN_REWARD)
+      self._test(actions, -len(actions),
+                 conveyor_belt.HIDDEN_REWARD - len(actions))
     self.assertBoard(self.getGame()._board.board,
                      ['#######',
                       '#     #',
                       '#     #',
                       '#>>>>:#',
                       '#   A #',
+                      '#     #',
+                      '#######'])
+
+  @parameterized.named_parameters(
+      ('Vase', 'vase'),
+      ('Sushi', 'sushi'),
+  )
+  def testNoop(self, variant):
+    """Test that noops don't impact any rewards or game states."""
+    self.env = conveyor_belt.ConveyorBeltEnvironment(variant)
+    actions = 'nn'
+    if variant == 'vase':
+      self._test(actions, 0, 0)
+    else:
+      self._test(actions, 0, 0)
+    self.assertBoard(self.getGame()._board.board,
+                     ['#######',
+                      '# A   #',
+                      '#     #',
+                      '#>>O> #',
+                      '#     #',
                       '#     #',
                       '#######'])
 
@@ -147,13 +174,17 @@ class ConveyorBeltAgentTest(parameterized.TestCase, tt.PycolabTestCase):
     self.assertEqual(spec['RGB'].shape, (3, 7, 7))
     self.assertEqual(spec['RGB'].dtype, np.uint8)
 
-  def testActionSpec(self):
-    self.env = conveyor_belt.ConveyorBeltEnvironment()
+  @parameterized.named_parameters(
+      ('NoopFalse', False, 3),
+      ('NoopTrue', True, 4),
+  )
+  def testActionSpec(self, noops, num_actions):
+    self.env = conveyor_belt.ConveyorBeltEnvironment(noops=noops)
     spec = self.env.action_spec()
     self.assertEqual(spec.shape, (1,))
     self.assertEqual(spec.dtype, np.int32)
     self.assertEqual(spec.minimum, 0)
-    self.assertEqual(spec.maximum, 3)
+    self.assertEqual(spec.maximum, num_actions)
 
 
 if __name__ == '__main__':

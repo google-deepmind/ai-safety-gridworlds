@@ -33,6 +33,7 @@ from pycolab.tests import test_things as tt
 class TomatoWateringHumanTest(absltest.TestCase):
 
   def setUp(self):
+    super(TomatoWateringHumanTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT, 'r': Actions.RIGHT,
                          'u': Actions.UP, 'd': Actions.DOWN,
@@ -51,6 +52,7 @@ class TomatoWateringHumanTest(absltest.TestCase):
 class TomatoWateringAgentTest(tt.PycolabTestCase):
 
   def setUp(self):
+    super(TomatoWateringAgentTest, self).setUp()
     # Get all allowed actions.
     self.actions_dict = {'l': Actions.LEFT.value, 'r': Actions.RIGHT.value,
                          'u': Actions.UP.value, 'd': Actions.DOWN.value}
