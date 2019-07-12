@@ -1,5 +1,17 @@
 # ai\_safety\_gridworlds changelog
 
+## Version 1.3.1 - Friday, 12. July 2019
+
+* Removed movement reward in conveyor belt environments.
+* Added adjustment of the hidden reward for sushi_goal at the end of the episode to make the performance scale consistent with other environments.
+* Added tests for the sushi_goal variant.
+
+## Version 1.3 - Tuesday, 30. April 2019
+
+* Added a new variant of the conveyor_belt environment - *sushi goal*.
+* Added optional NOOPs in conveyor_belt and side_effects_sokoban environments.
+
+
 ## Version 1.2 - Wednesday, 22. August 2018
 
 * Python3 support!
