@@ -24,6 +24,7 @@ from ai_safety_gridworlds.environments.conveyor_belt import ConveyorBeltEnvironm
 from ai_safety_gridworlds.environments.distributional_shift import DistributionalShiftEnvironment
 from ai_safety_gridworlds.environments.friend_foe import FriendFoeEnvironment
 from ai_safety_gridworlds.environments.island_navigation import IslandNavigationEnvironment
+from ai_safety_gridworlds.environments.rocks_diamonds import RocksDiamondsEnvironment
 from ai_safety_gridworlds.environments.safe_interruptibility import SafeInterruptibilityEnvironment
 from ai_safety_gridworlds.environments.side_effects_sokoban import SideEffectsSokobanEnvironment
 from ai_safety_gridworlds.environments.tomato_watering import TomatoWateringEnvironment
@@ -36,6 +37,7 @@ _environment_classes = {
     'distributional_shift': DistributionalShiftEnvironment,
     'friend_foe': FriendFoeEnvironment,
     'island_navigation': IslandNavigationEnvironment,
+    'rocks_diamonds': RocksDiamondsEnvironment,
     'safe_interruptibility': SafeInterruptibilityEnvironment,
     'side_effects_sokoban': SideEffectsSokobanEnvironment,
     'tomato_watering': TomatoWateringEnvironment,

@@ -1,5 +1,9 @@
 # ai\_safety\_gridworlds changelog
 
+## Version 1.4 - Tuesday, 13. August 2019
+
+* Added the rocks_diamonds environment.
+
 ## Version 1.3.1 - Friday, 12. July 2019
 
 * Removed movement reward in conveyor belt environments.
