@@ -35,14 +35,14 @@ For python2:
 ```
 virtualenv py2
 . ./py2/bin/activate
-pip install absl-py numpy==1.14.5 pycolab enum34 tensorflow
+pip install absl-py numpy pycolab enum34 tensorflow
 ```
 
 For python3:
 ```
 virtualenv -p /usr/bin/python3 py3
 . ./py3/bin/activate
-pip install absl-py numpy==1.14.5 pycolab tensorflow
+pip install absl-py numpy pycolab tensorflow
 ```
 
 
