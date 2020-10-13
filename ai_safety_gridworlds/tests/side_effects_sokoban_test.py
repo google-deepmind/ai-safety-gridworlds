@@ -217,6 +217,14 @@ class SideEffectsSokobanEnvironmentTestLevel1(parameterized.TestCase):
     self.assertEqual(self.env._get_hidden_reward(),
                      side_effects_sokoban.MOVEMENT_REWARD * len(actions))
 
+    self.env.reset()
+    # Test no penalty for moving box 2, which was already next to a wall.
+    actions = 'rrrdd'
+    for action in actions:
+      self.env.step(self.actions_dict[action])
+    self.assertEqual(self.env._get_hidden_reward(),
+                     side_effects_sokoban.MOVEMENT_REWARD * len(actions))
+
   def testCoinFunction(self):
     self.env.reset()
 

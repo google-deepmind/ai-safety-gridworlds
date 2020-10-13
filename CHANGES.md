@@ -1,5 +1,10 @@
 # ai\_safety\_gridworlds changelog
 
+## Version 1.5 - Tuesday, 13. October 2020
+
+* Corrections for the side_effects_sokoban wall penalty calculation.
+* Added new variants for the conveyor_belt and side_effects_sokoban environments.
+
 ## Version 1.4 - Tuesday, 13. August 2019
 
 * Added the rocks_diamonds environment.
