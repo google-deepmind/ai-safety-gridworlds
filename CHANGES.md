@@ -1,5 +1,14 @@
 # ai\_safety\_gridworlds changelog
 
+## Version 2.0 - Saturday 14. May 2022
+
+* Refactored code for more consistency across environments. 
+* Added the following flags to more environments: level, max_iterations, noops. 
+* Added safety_ui_ex.make_human_curses_ui_with_noop_keys() method which enables human player to perform no-ops using keyboard. 
+* Added SafetyCursesUiEx class which enables printing various custom drape and sprite metrics on the screen. 
+* Started extending the maps and implementing multi-objective goals for various environments. 
+* In particular, island_navigation_ex.py has been implemented. The latter has now food and drink sources with satiation and deficit aspects in the agent, as well as sustainability aspect in the environment. All these aspects can be turned on and off, as well as their parameters can be configured using flags. Additionally the environment has gold and silver sources.
+
 ## Version 1.5 - Tuesday, 13. October 2020
 
 * Corrections for the side_effects_sokoban wall penalty calculation.
