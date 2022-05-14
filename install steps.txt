@@ -1,0 +1,16 @@
+
+pip install absl-py		# absl
+pip install pycolab
+pip install numpy
+pip install tensorflow
+
+if using Windows:
+pip install windows-curses
+
+
+if using Windows:
+set TERM=xterm-256color
+
+if using Linux:
+export TERM=xterm-256color
+
